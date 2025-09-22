@@ -17,8 +17,14 @@ export interface Email {
 export interface Attachment {
   id: string;
   name: string;
-  size: string;
-  type: string;
+  size: string; // e.g., "123 KB"
+  type: string; // MIME type like "application/pdf"
+  file?: File; // optional reference to uploaded file
+}
+
+export interface EmailAttachmentProps {
+  attachment: Attachment;
+  onDownload?: (attachment: Attachment) => void;
 }
 
 export type EmailFolder =
@@ -29,6 +35,8 @@ export type EmailFolder =
   | "trash"
   | "starred";
 
+export type EmailAction = "star" | "archive" | "delete" | "markUnread";
+
 export interface FolderInfo {
   id: EmailFolder;
   name: string;
@@ -36,6 +44,7 @@ export interface FolderInfo {
     Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>
   >;
   count?: number;
+  unreadCount?: number;
 }
 
 export interface EmailSidebarProps {
@@ -47,26 +56,44 @@ export interface EmailSidebarProps {
 export interface EmailSearchBarProps {
   searchQuery: string;
   onSearchChange: (query: string) => void;
+  onFilterClick?: () => void;
+}
+
+export type EmailFilter = "all" | "unread" | "starred";
+
+export interface EmailSearchBarProps {
+  searchQuery: string;
+  onSearchChange: (query: string) => void;
+  filter?: EmailFilter; // optional current filter
+  onFilterChange?: (filter: EmailFilter) => void; // callback
 }
 
 export interface EmailListProps {
   emails: Email[];
   selectedEmail: Email | null;
   onEmailSelect: (email: Email) => void;
-  onEmailAction: (action: string, email: Email) => void;
+  onEmailAction: (action: EmailAction, email: Email) => void;
 }
+
+export type NewEmail = Omit<Email, "id" | "timestamp" | "isRead" | "isStarred">;
 
 export interface EmailComposeProps {
   isOpen: boolean;
   onClose: () => void;
-  onSend: (
-    email: Omit<Email, "id" | "timestamp" | "isRead" | "isStarred">,
-  ) => void;
+  onSend: (email: NewEmail) => void;
 }
 
 export interface EmailCardProps {
   email: Email;
   isSelected: boolean;
   onSelect: () => void;
-  onAction: (action: string, email: Email) => void;
+  onAction: (action: EmailAction, email: Email) => void;
+}
+
+export interface EmailViewProps {
+  email: Email;
+  onReply: () => void;
+  onArchive: () => void;
+  onDelete: () => void;
+  onStar: () => void;
 }

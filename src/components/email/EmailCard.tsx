@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useCallback } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,37 +19,43 @@ import {
 } from "@/components/ui/dropdown-menu";
 import type { EmailCardProps } from "@/lib/types";
 
-export function EmailCard({
+function truncateText(text: string, maxLength: number) {
+  return text.length > maxLength ? text.slice(0, maxLength) + "…" : text;
+}
+
+export const EmailCard = React.memo(function EmailCard({
   email,
   isSelected,
   onSelect,
   onAction,
 }: EmailCardProps) {
-  const handleStarClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onAction("star", email);
-  };
+  const handleStarClick = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      onAction("star", email);
+    },
+    [onAction, email],
+  );
 
-  const handleArchiveClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onAction("archive", email);
-  };
-
-  const truncateText = (text: string, maxLength: number) => {
-    return text.length > maxLength
-      ? text.substring(0, maxLength) + "..."
-      : text;
-  };
+  const handleArchiveClick = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      onAction("archive", email);
+    },
+    [onAction, email],
+  );
 
   return (
     <div
+      role="button"
+      tabIndex={0}
       className={cn(
-        "p-4 cursor-pointer transition-all duration-200 hover:bg-gray-50 border-l-4",
-        isSelected
-          ? "bg-blue-50 border-l-blue-500"
-          : email.isRead
-            ? "border-l-transparent"
-            : "border-l-blue-400 bg-blue-25",
+        "p-4 cursor-pointer transition-all duration-200 hover:bg-accent border-l-4 group",
+        {
+          "bg-accent border-l-primary": isSelected,
+          "border-l-transparent": email.isRead && !isSelected,
+          "border-l-primary/60 bg-accent/30": !email.isRead && !isSelected,
+        },
       )}
       onClick={onSelect}
     >
@@ -57,11 +64,12 @@ export function EmailCard({
         <Button
           variant="ghost"
           size="sm"
+          aria-label={email.isStarred ? "Unstar email" : "Star email"}
           className={cn(
             "p-0 h-5 w-5 mt-1",
             email.isStarred
               ? "text-yellow-500 hover:text-yellow-600"
-              : "text-gray-400 hover:text-gray-600",
+              : "text-muted-foreground hover:text-foreground",
           )}
           onClick={handleStarClick}
         >
@@ -77,14 +85,14 @@ export function EmailCard({
               className={cn(
                 "text-sm truncate",
                 email.isRead
-                  ? "font-normal text-gray-700"
-                  : "font-semibold text-gray-900",
+                  ? "font-normal text-muted-foreground"
+                  : "font-semibold text-foreground",
               )}
             >
               {email.sender}
             </span>
             <div className="flex items-center gap-2 ml-2">
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-muted-foreground">
                 {format(email.timestamp, "MMM d")}
               </span>
               <DropdownMenu>
@@ -92,7 +100,8 @@ export function EmailCard({
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="p-0 h-4 w-4 text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity"
+                    aria-label="More actions"
+                    className="p-0 h-4 w-4 text-muted-foreground hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <MoreHorizontalIcon />
@@ -105,11 +114,11 @@ export function EmailCard({
                     Mark as unread
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={handleArchiveClick}>
-                    <ArchiveIcon />
+                    <ArchiveIcon className="mr-2 h-4 w-4" />
                     Archive
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => onAction("delete", email)}>
-                    <Trash2Icon />
+                    <Trash2Icon className="mr-2 h-4 w-4" />
                     Delete
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -121,22 +130,19 @@ export function EmailCard({
             className={cn(
               "text-sm mb-1 truncate",
               email.isRead
-                ? "font-normal text-gray-800"
-                : "font-medium text-gray-900",
+                ? "font-normal text-muted-foreground"
+                : "font-medium text-foreground",
             )}
           >
             {email.subject}
           </h3>
 
-          <p className="text-xs text-gray-600 truncate">
+          <p className="text-xs text-muted-foreground truncate">
             {truncateText(email.content.replace(/\n/g, " "), 100)}
           </p>
 
           {!email.isRead && (
-            <Badge
-              variant="secondary"
-              className="mt-2 text-xs bg-blue-100 text-blue-800"
-            >
+            <Badge variant="secondary" className="mt-2 text-xs">
               Unread
             </Badge>
           )}
@@ -144,4 +150,4 @@ export function EmailCard({
       </div>
     </div>
   );
-}
+});

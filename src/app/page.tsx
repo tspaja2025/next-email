@@ -1,59 +1,29 @@
 "use client";
 
-import { useState } from "react";
 import { EmailSidebar } from "@/components/email/EmailSidebar";
 import { EmailList } from "@/components/email/EmailList";
 import { EmailView } from "@/components/email/EmailView";
 import { EmailCompose } from "@/components/email/EmailCompose";
 import { EmailSearchBar } from "@/components/email/EmailSearchBar";
-import type { Email, EmailFolder } from "@/lib/types";
-import { mockEmails } from "@/lib/mock-emails";
+import { useEmails } from "@/hooks/use-emails";
+import { useState } from "react";
+import type { EmailFilter } from "@/lib/types";
 
 export default function Home() {
-  const [selectedFolder, setSelectedFolder] = useState<EmailFolder>("inbox");
-  const [selectedEmail, setSelectedEmail] = useState<Email | null>(null);
-  const [isComposeOpen, setIsComposeOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [emails, setEmails] = useState<Email[]>(mockEmails);
-
-  const filteredEmails = emails.filter((email) => {
-    const matchesFolder = email.folder === selectedFolder;
-    const matchesSearch =
-      searchQuery === "" ||
-      email.subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      email.sender.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      email.content.toLowerCase().includes(searchQuery.toLowerCase());
-
-    return matchesFolder && matchesSearch;
-  });
-
-  const handleEmailAction = (action: string, email: Email) => {
-    setEmails((prevEmails) =>
-      prevEmails.map((e) =>
-        e.id === email.id
-          ? {
-              ...e,
-              isStarred: action === "star" ? !e.isStarred : e.isStarred,
-              folder: action === "archive" ? "trash" : e.folder,
-              isRead: action === "markUnread" ? false : e.isRead,
-            }
-          : e,
-      ),
-    );
-  };
-
-  const handleSendEmail = (
-    newEmail: Omit<Email, "id" | "timestamp" | "isRead" | "isStarred">,
-  ) => {
-    const email: Email = {
-      ...newEmail,
-      id: Date.now().toString(),
-      timestamp: new Date(),
-      isRead: true,
-      isStarred: false,
-    };
-    setEmails((prev) => [email, ...prev]);
-  };
+  const [filter, setFilter] = useState<EmailFilter>("all");
+  const {
+    selectedFolder,
+    setSelectedFolder,
+    selectedEmail,
+    setSelectedEmail,
+    isComposeOpen,
+    setIsComposeOpen,
+    searchQuery,
+    setSearchQuery,
+    filteredEmails,
+    handleEmailAction,
+    handleSendEmail,
+  } = useEmails();
 
   return (
     <div className="flex h-screen">
@@ -67,6 +37,8 @@ export default function Home() {
         <EmailSearchBar
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
+          filter={filter}
+          onFilterChange={setFilter}
         />
 
         <div className="flex-1 flex overflow-hidden">
@@ -77,6 +49,15 @@ export default function Home() {
               onEmailSelect={setSelectedEmail}
               onEmailAction={handleEmailAction}
             />
+
+            {filteredEmails.length === 0 && (
+              <div className="flex items-center justify-center h-full text-gray-500">
+                <div className="text-center">
+                  <h3 className="text-lg font-medium mb-2">No emails found</h3>
+                  <p>Try a different folder or search</p>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="flex-1">

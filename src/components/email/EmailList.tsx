@@ -12,7 +12,11 @@ export function EmailList({
 }: EmailListProps) {
   if (emails.length === 0) {
     return (
-      <div className="flex items-center justify-center h-full text-gray-500">
+      <div
+        className="flex items-center justify-center h-full text-muted-foreground"
+        role="status"
+        aria-live="polite"
+      >
         <div className="text-center">
           <h3 className="text-lg font-medium mb-2">No emails found</h3>
           <p className="text-sm">
@@ -25,7 +29,7 @@ export function EmailList({
 
   return (
     <ScrollArea className="h-full">
-      <div className="divide-y divide-gray-200">
+      <div className="divide-y divide-border">
         {emails.map((email) => (
           <EmailCard
             key={email.id}
