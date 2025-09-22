@@ -1,16 +1,16 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
+  AlertTriangleIcon,
+  Edit3Icon,
+  FileTextIcon,
   InboxIcon,
   SendIcon,
-  FileTextIcon,
-  AlertTriangleIcon,
-  Trash2Icon,
   StarIcon,
-  Edit3Icon,
+  Trash2Icon,
 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import type { EmailSidebarProps, FolderInfo } from "@/lib/types";
 
 const folders: FolderInfo[] = [

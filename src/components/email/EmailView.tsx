@@ -1,29 +1,30 @@
 "use client";
 
+import { format } from "date-fns";
+import {
+  ArchiveIcon,
+  ArrowLeftIcon,
+  ForwardIcon,
+  MoreHorizontalIcon,
+  ReplyAllIcon,
+  ReplyIcon,
+  StarIcon,
+  Trash2Icon,
+} from "lucide-react";
 import React from "react";
-import type { EmailViewProps } from "@/lib/types";
-import { Button } from "@/components/ui/button";
+import { EmailAttachment } from "@/components/email/EmailAttachment";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  ReplyIcon,
-  ReplyAllIcon,
-  ForwardIcon,
-  ArchiveIcon,
-  Trash2Icon,
-  StarIcon,
-  MoreHorizontalIcon,
-  ArrowLeftIcon,
-} from "lucide-react";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import type { EmailViewProps } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 export const EmailView = React.memo(function EmailView({
   email,

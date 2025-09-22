@@ -1,16 +1,15 @@
 "use client";
 
+import { format } from "date-fns";
+import {
+  ArchiveIcon,
+  MoreHorizontalIcon,
+  StarIcon,
+  Trash2Icon,
+} from "lucide-react";
 import React, { useCallback } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  StarIcon,
-  ArchiveIcon,
-  Trash2Icon,
-  MoreHorizontalIcon,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
-import { format } from "date-fns";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { EmailCardProps } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 function truncateText(text: string, maxLength: number) {
   return text.length > maxLength ? text.slice(0, maxLength) + "…" : text;

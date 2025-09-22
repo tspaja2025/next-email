@@ -100,7 +100,7 @@ Marketing Team`,
 You have 3 new connection requests waiting for your response:
 
 1. Alex Thompson - Software Engineer at TechCorp
-2. Maria Garcia - Product Manager at Innovation Labs  
+2. Maria Garcia - Product Manager at Innovation Labs
 3. David Chen - UX Designer at Creative Studio
 
 These professionals would like to connect with you on LinkedIn. You can accept or decline their requests from your LinkedIn inbox.

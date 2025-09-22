@@ -1,18 +1,18 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { PaperclipIcon, Send, X } from "lucide-react";
+import { useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Send, PaperclipIcon, X } from "lucide-react";
-import type { EmailComposeProps, Attachment } from "@/lib/types";
+import type { Attachment, EmailComposeProps } from "@/lib/types";
 
 export function EmailCompose({ isOpen, onClose, onSend }: EmailComposeProps) {
   const [to, setTo] = useState("");
@@ -56,6 +56,7 @@ export function EmailCompose({ isOpen, onClose, onSend }: EmailComposeProps) {
       id: crypto.randomUUID(),
       name: file.name,
       size: `${(file.size / 1024).toFixed(1)} KB`,
+      type: "",
     }));
 
     setAttachments((prev) => [...prev, ...newAttachments]);

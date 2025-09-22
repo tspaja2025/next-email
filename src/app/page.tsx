@@ -1,12 +1,12 @@
 "use client";
 
-import { EmailSidebar } from "@/components/email/EmailSidebar";
-import { EmailList } from "@/components/email/EmailList";
-import { EmailView } from "@/components/email/EmailView";
-import { EmailCompose } from "@/components/email/EmailCompose";
-import { EmailSearchBar } from "@/components/email/EmailSearchBar";
-import { useEmails } from "@/hooks/use-emails";
 import { useState } from "react";
+import { EmailCompose } from "@/components/email/EmailCompose";
+import { EmailList } from "@/components/email/EmailList";
+import { EmailSearchBar } from "@/components/email/EmailSearchBar";
+import { EmailSidebar } from "@/components/email/EmailSidebar";
+import { EmailView } from "@/components/email/EmailView";
+import { useEmails } from "@/hooks/use-emails";
 import type { EmailFilter } from "@/lib/types";
 
 export default function Home() {

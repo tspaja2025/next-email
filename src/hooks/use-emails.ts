@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import type { Email, EmailFilter, EmailFolder } from "@/lib/types";
+import { useCallback, useState } from "react";
 import { mockEmails } from "@/lib/mock-emails";
+import type { Email, EmailFilter, EmailFolder } from "@/lib/types";
 
 type EmailAction = "star" | "archive" | "delete" | "markUnread";
 
