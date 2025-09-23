@@ -49,15 +49,6 @@ export default function Home() {
               onEmailSelect={setSelectedEmail}
               onEmailAction={handleEmailAction}
             />
-
-            {filteredEmails.length === 0 && (
-              <div className="flex items-center justify-center h-full text-gray-500">
-                <div className="text-center">
-                  <h3 className="text-lg font-medium mb-2">No emails found</h3>
-                  <p>Try a different folder or search</p>
-                </div>
-              </div>
-            )}
           </div>
 
           <div className="flex-1">

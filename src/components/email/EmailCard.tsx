@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import type { EmailCardProps } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { Card } from "@/components/ui/card";
 
 function truncateText(text: string, maxLength: number) {
   return text.length > maxLength ? text.slice(0, maxLength) + "…" : text;
@@ -46,11 +47,10 @@ export const EmailCard = React.memo(function EmailCard({
   );
 
   return (
-    <div
-      role="button"
+    <Card
       tabIndex={0}
       className={cn(
-        "p-4 cursor-pointer transition-all duration-200 hover:bg-accent border-l-4 group",
+        "p-4 cursor-pointer rounded-none shadow-none border-0 border-b transition-all duration-200 hover:bg-accent border-l-4 group",
         {
           "bg-accent border-l-primary": isSelected,
           "border-l-transparent": email.isRead && !isSelected,
@@ -58,6 +58,7 @@ export const EmailCard = React.memo(function EmailCard({
         },
       )}
       onClick={onSelect}
+      onKeyDown={onSelect}
     >
       <div className="flex items-start gap-3">
         {/* Star */}
@@ -148,6 +149,6 @@ export const EmailCard = React.memo(function EmailCard({
           )}
         </div>
       </div>
-    </div>
+    </Card>
   );
 });

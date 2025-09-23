@@ -14,7 +14,6 @@ export function EmailList({
     return (
       <div
         className="flex items-center justify-center h-full text-muted-foreground"
-        role="status"
         aria-live="polite"
       >
         <div className="text-center">

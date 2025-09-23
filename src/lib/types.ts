@@ -11,7 +11,7 @@ export interface Email {
   isRead: boolean;
   isStarred: boolean;
   folder: EmailFolder;
-  attachments?: Attachment[];
+  attachments: Attachment[];
 }
 
 export interface Attachment {

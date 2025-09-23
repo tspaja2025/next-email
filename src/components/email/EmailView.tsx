@@ -164,7 +164,7 @@ export const EmailView = React.memo(function EmailView({
           </div>
 
           {/* Attachments */}
-          {email.attachments?.length > 0 && (
+          {email.attachments.length > 0 && (
             <div className="mt-6 pt-6 border-t border-border">
               <h4 className="font-medium text-foreground mb-3">
                 Attachments ({email.attachments.length})
