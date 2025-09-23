@@ -8,9 +8,9 @@ export interface Email {
   subject: string;
   content: string;
   timestamp: Date;
-  isRead: boolean;
-  isStarred: boolean;
-  folder: EmailFolder;
+  isRead: boolean | EmailAction;
+  isStarred: boolean | EmailAction;
+  folder: EmailFolder | EmailAction;
   attachments: Attachment[];
 }
 
